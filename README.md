@@ -30,7 +30,7 @@ $$
 | ----------------------------- | ----------------------------------------- | ------------------------------------------- |
 | 3D Printed Part               | Future 7500 high-performance nylon        | Detailed parameters are in the pdf document |
 | Induction Coil (1) Mass       | 260g                                      |                                             |
-| Induction Coil (1) Volume     | 37073.5 $mm ^3 $                          |                                             |
+| Induction Coil (1) Volume     | 37073.5$mm ^3 $                         |                                             |
 | Electromagnetic Force         | 70N                                       |                                             |
 | Rubik's Cube Size             | 55mm×55mm×55mm                          |                                             |
 | Rubik's Cube Mass             | 50g                                       |                                             |
@@ -78,3 +78,17 @@ The transient analysis is computationally intensive, with relatively complex loa
 ![Transient_Analysis_of_Deformation_during_Grabbing_Process](image/Transient_Analysis_of_Deformation_during_Grabbing_Process.png#pic_center "Transient_Analysis_of_Deformation_during_Grabbing_Process")
 
 ![Statistical_Deformation_Diagram_of_Transient_Analysis_during_Grabbing_Process](image/Statistical_Deformation_Diagram_of_Transient_Analysis_during_Grabbing_Process.png#pic_center "Statistical_Deformation_Diagram_of_Transient_Analysis_during_Grabbing_Process")
+
+From the transient analysis results, it is evident that the impact happens very quickly, and each impact exhibits significant attenuation, ultimately achieving stable grabbing. Therefore, the subsequent analysis focuses on the stress concentration during the first impact.
+
+![Time_Statistics_of_Stress_during_the_Grabbing_Process](image/Time_Statistics_of_Stress_during_the_Grabbing_Process.png "Time_Statistics_of_Stress_during_the_Grabbing_Process")
+
+Below is a simplified analysis showing the stress concentration during the first impact, when the maximum stress occurs
+
+![Stress_Concentration](image/Stress_Concentration.png "Stress_Concentration")
+
+The stress concentration is mainly located at the ear portion of the shell and the connection region between the shell and the housing, with significant stress diffusion occurring.
+
+Similarly, the stress concentration in the linkages can be analyzed to guide subsequent structural optimizations.
+
+![Linkage_Stress_Diagram](image/Linkage_Stress_Diagram.png "Linkage_Stress_Diagram")
