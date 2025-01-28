@@ -189,4 +189,38 @@ The optimized model was printed using the Bambu Lab X1E 3D printer. After removi
 
 However, when the part was tested on the cube robot, it was found that the 3D printed part exhibited imbalance in rotational mass. This was due to the lack of symmetry constraints applied during topology optimization. Consequently, we considered using this part as a reference and manually modified the original model for weight reduction.
 
-## Verification of Topology Optimized Structure and Reconstructed Model
+### Model Reconstruction based on Topology Optimized Structure
+
+Upon observing the topology-optimized model, the primary optimization areas are the central belly of the shell and the long edges of the upper end face of the shell. Therefore, we designed two waist-shaped holes in the central region of the shell and added a concave arc shape on the upper end face of the shell to further reduce volume.
+
+![Comparison](image/Comparison.png "Comparison")
+
+Below is the comparison of the stress situation between the new shell and the original component. It can be seen that, despite the weight reduction, the stress concentration at the ear section of the original model has not worsened, which meets our weight-reduction design requirements.
+
+![Comparison](image/Comparison1.png "Comparison")
+
+Volume Reduction Ratio
+
+$$
+\frac{60038.4-46242.3}{60038.4}=18.9\%
+$$
+
+which is almost in line with the target optimization goal of reducing 20%.
+
+## Summary
+
+This finite element analysis project focused on the key component—the gripper system—of a Rubik's Cube robot. In-depth analysis of the key part, the shell, was conducted during both the impact and rotational processes, providing insights into stress, deformation, and optimization for weight reduction. The 20% weight reduction goal was achieved, enhancing the economic efficiency of 3D printing and offering valuable reference data for the gripper system's design optimization. In future work, we will continue to deepen our understanding of finite element analysis techniques, contribute to the performance improvement of the Rubik's Cube robot, and actively apply these techniques to other engineering fields.
+
+## Appendix
+
+The material parameters for 3D printed parts are set as follows:
+
+![img](image/8.png)
+
+Electromagnet Material Parameters:
+
+![img](image/9.png)
+
+Rubik’s Cube Material Parameters:
+
+![img](image/10.png)
