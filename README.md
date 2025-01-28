@@ -92,3 +92,101 @@ The stress concentration is mainly located at the ear portion of the shell and t
 Similarly, the stress concentration in the linkages can be analyzed to guide subsequent structural optimizations.
 
 ![Linkage_Stress_Diagram](image/Linkage_Stress_Diagram.png "Linkage_Stress_Diagram")
+
+### steady-state analysis
+
+Based on the results of transient analysis and the physical model considerations, we explore whether we can approximate the impact process to a steady-state scenario, enabling the acquisition of high-precision results under lower computational power, which will guide subsequent analysis.
+
+We observe that the stress concentration during the impact process follows a linear trend over time (though the magnitude of stress changes significantly, the stress distribution remains relatively constant throughout the process). During the first impact, a clear maximum stress occurs. We also note that the impact is caused by the sudden obstruction of the mechanical claw's movement by the cube, which leads to rapid deceleration, generating a significant force due to the large acceleration. Therefore, based on this analysis, we propose setting a constant force at the initial position of the mechanical claw and restricting the claw's motion, using the resulting stress conditions to approximate the stress under the impact situation. On this basis, all other forces are simplified, and components such as the electromagnet and shaft, which are not critical to the analysis, are removed.
+
+In this simplification, we appropriately increase the connection complexity of the force-related parts of the model. The rotational components are modeled with pin connections, with a friction coefficient of 0.1.
+
+![Pin_Connection_Modeling](image/Pin_Connection_Modeling.png "Pin_Connection_Modeling")
+
+![Static_Analysis_Load_Application](image/Static_Analysis_Load_Application.png "Static_Analysis_Load_Application")
+
+It is important to note that the exact force at the impact moment on the gripper cannot be directly calculated. Therefore, we referenced the maximum stress of about 23 MPa obtained from the transient analysis, and adjusted the corresponding equivalent load to ensure the stress at the original concentration location remains the same. This results in an equivalent force of about 135N at the gripper’s two ends. The transient analysis results at this stage (with a cell size of 1mm, providing much higher precision than the transient analysis) are shown below
+
+![Stress_Distribution_for_Equivalent_Load](image/Stress_Distribution_for_Equivalent_Load.png "Stress_Distribution_for_Equivalent_Load")
+
+![Stress_Concentration1](image/Stress_Concentration1.png "Stress_Concentration1")
+
+After adding pin connections and refining the mesh density, the stress analysis results are similar to those of the original transient analysis. However, the following changes occurred:
+
+* The pin connection position replaced the original stress concentration location as the region with maximum stress, reaching 40 MPa.
+* The stress at the lower half of the sleeve ear region increased, and a distribution of higher stress on both sides with a lower stress in the middle became evident.
+
+This result shows that although the equivalent calculation provides a more detailed result, it still differs significantly from the real physical process. Thus, this method needs to be referenced dialectically.
+
+The same method can be used to analyze the stress concentration in the linkage
+
+![Linkage_Stress_Diagram](image/Linkage_Stress_Diagram.png "Linkage_Stress_Diagram")
+
+As seen, the results are consistent with the transient analysis. The linkage experiences higher stress than the shell, reaching the maximum value at the connection point. Additionally, structural stress concentration appears at the inner arcs of the inner linkage, with significant severity. The outer linkage plays a limited role in distributing stress; most of the force is carried by the outer linkage. While the stress concentration regions are consistent, the result suggests that the outer linkage is crucial in stress transfer.
+
+In general, although there are numerical differences between the two, steady-state analysis tends to overestimate the stress concentration compared to transient analysis. However, this more conservative estimation is useful for structural optimization, serving as a stricter basis for subsequent analysis.
+
+## Stress Concentration Analysis during Gripper Rotation
+
+After the gripper stabilizes the cube, it will grip it tightly with a 70N force using the electromagnet and begin rotating with a 2.2 N·m torque provided by the motor. The following analysis focuses on this process, where the steady-state equivalent provides poorer results and aligns less well with the actual model, so only transient analysis is conducted.
+
+The settings are similar to those in the grabbing process transient analysis, where rotational relationships connect components. A 70N force is applied to the linkage's load-bearing end and the motor’s upper surface. The difference is that the cube’s axial displacement is set to zero, while displacement in the other two directions is allowed. The motor is fixed to the ground, providing a 2.2 N·m torque to rotate the gripper. The goal is to observe the changes in stress concentration during the rotation.
+
+![Load_Setup](image/Load_Setup.png "Load_Setup")
+
+During calculation, the 70N load is applied in 0.005s to simulate a stable gripping state, followed by the application of the 2.2 N·m torque to start the gripper's rotation.
+
+Since the gripper’s rotation angle generally does not exceed 180°, the study focuses on the first 90° rotation before deceleration is required.
+
+![Rotation_Process](image/Rotation_Process.png "Rotation_Process")
+
+The stress distribution during the process from load application to rotation is as follows
+
+![img](image/1.png)
+
+It can be seen that during rotation, the stress exhibits minor oscillations, with overall stress similar to that during the static gripping. This indicates that the rotation process, both during start-up and while ongoing, does not cause significant stress concentration.
+
+A peak value moment is selected for further analysis of stress concentration during rotation.
+
+![img](image/2.png)
+
+![Peak_Stress_Location](image/Peak_Stress_Location.png "Peak_Stress_Location")
+
+It can be seen that rotation causes the stress distribution to become distinctly asymmetric.
+
+![Linkage_Structure_Stress](image/Linkage_Structure_Stress.png "Linkage_Structure_Stress")
+
+Maximum Stress Concentration Distribution for Linkage Structure (Left 1, 2) vs Gripping Stress Distribution (Right 1)
+
+It is observed that the maximum stress concentration still occurs at the same location as during gripping or impact. However, due to rotation, there is a “transfer” of stress, leading to more severe concentration during rotation.
+
+## Topology Optimization
+
+Based on the analysis of the gripper's movement above, we conclude the following regarding stress concentration during the shell's movement
+
+* The most significant stress concentration occurs during the impact process, with a maximum stress value of approximately 25 MPa, while the maximum stress during rotation is only 8 MPa.
+* The steady-state equivalent of the impact process can effectively replace the transient analysis, despite some differences. The main stress concentration locations remain unchanged, though stress is higher in certain regions, effectively accounting for a safety factor. The steady-state analysis offers benefits such as easy integration into topology optimization, pin connections, increased mesh density, and significantly improved computational precision.
+
+Therefore, steady-state analysis results serve as the basis for subsequent topology optimization.
+
+Before topology optimization, areas where no material removal is required—such as interfaces with other parts like holes and shafts—are considered. After topology optimization and 14 iterations, the following result is obtained
+
+![img](image/3.png)
+
+![img](image/4.png)
+
+After removing the red “deleted” and brown “boundary” parts, the final result is as follows
+
+![img](image/5.jpg)
+
+At this stage, the model is irregular. Using SpaceClaim, we repair and optimize it, saving the result as an STL file and importing it into slicing software.
+
+![img](image/6.png)
+
+The optimized model was printed using the Bambu Lab X1E 3D printer. After removing the supports, the following product was obtained
+
+![img](image/7.jpg)
+
+However, when the part was tested on the cube robot, it was found that the 3D printed part exhibited imbalance in rotational mass. This was due to the lack of symmetry constraints applied during topology optimization. Consequently, we considered using this part as a reference and manually modified the original model for weight reduction.
+
+## Verification of Topology Optimized Structure and Reconstructed Model
